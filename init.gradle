@@ -1,0 +1,97 @@
+ allprojects {
+ 	buildscript {
+ 		repositories {
+ 			mavenLocal()
+ 			def NEXUS_URL = 'https://maven.aliyun.com/repository/public'
+ 			def jcenter_URL = 'https://maven.aliyun.com/repository/jcenter'
+ 			def m2_URL = 'https://maven.aliyun.com/repository/gradle-plugin'
+ 			def spring_plugin_URL = 'https://maven.aliyun.com/repository/spring-plugin'
+ 			def spring_URL = 'https://maven.aliyun.com/repository/spring'
+ 			def GOOGLE_URL = 'https://maven.aliyun.com/repository/google'
+ 			all { ArtifactRepository repo ->
+ 				if(repo instanceof MavenArtifactRepository){
+ 					def url = repo.url.toString()
+ 					if (url.startsWith('https://repo1.maven.org/maven2') || url.startsWith('https://jcenter.bintray.com') || 		url.startsWith('http://mirrors.ibiblio.org')) {
+ 						project.logger.lifecycle "Repository ${repo.url} replaced by $jcenter_URL."
+ 						remove repo
+ 					} else if (url.startsWith('https://plugins.gradle.org/m2/')) {
+ 						project.logger.lifecycle "Repository ${repo.url} replaced by $m2_URL."
+ 						remove repo
+ 					} else if (url.startsWith('http://repo.spring.io/libs-milestone/')) {
+ 						project.logger.lifecycle "Repository ${repo.url} replaced by $spring_URL."
+ 						remove repo
+ 					} else if (url.startsWith('http://repo.spring.io/plugins-release/')) {
+ 						project.logger.lifecycle "Repository ${repo.url} replaced by $spring_plugin_URL."
+ 						remove repo
+                    // 这里是安卓相关下载的加速，本地没有出现下载慢的情况，所以这个就屏蔽了
+ 					}else if (url.startsWith('https://dl.google.com/dl/android/maven2/')) {
+ 						project.logger.lifecycle "Repository ${repo.url} replaced by $GOOGLE_URL."
+ 						println("buildscript ${repo.url} replaced by $GOOGLE_URL.")
+ 						remove repo
+ 					}
+ 				}
+ 			}
+ 			
+ 			maven { url 'https://maven.aliyun.com/repository/public' }
+ 			maven { url 'https://maven.aliyun.com/repository/spring' }
+ 			maven { url 'https://maven.aliyun.com/repository/spring-plugin' }
+ 			maven { url "https://maven.aliyun.com/repository/grails-core" }
+ 			maven { url "https://maven.aliyun.com/repository/apache-snapshots" }
+ 			maven { url "https://maven.aliyun.com/repository/gradle-plugin" }
+ 			maven { url 'https://maven.aliyun.com/repository/google' }
+ 			jcenter {
+ 				url jcenter_URL
+ 			}
+ 			maven {
+ 				url NEXUS_URL
+ 			}
+ 		}
+ 	
+ 	}
+     repositories {
+         mavenLocal()
+ 		def NEXUS_URL = 'https://maven.aliyun.com/repository/public'
+ 		def jcenter_URL = 'https://maven.aliyun.com/repository/jcenter'
+ 		def m2_URL = 'https://maven.aliyun.com/repository/gradle-plugin'
+ 		def spring_plugin_URL = 'https://maven.aliyun.com/repository/spring-plugin'
+ 		def spring_URL = 'https://maven.aliyun.com/repository/spring'
+ 		def GOOGLE_URL = 'https://maven.aliyun.com/repository/google'
+         all { ArtifactRepository repo ->
+             if(repo instanceof MavenArtifactRepository){
+                 def url = repo.url.toString()
+                 if (url.startsWith('https://repo1.maven.org/maven2') || url.startsWith('https://jcenter.bintray.com') || 		url.startsWith('http://mirrors.ibiblio.org')) {
+                     project.logger.lifecycle "Repository ${repo.url} replaced by $jcenter_URL."
+                     remove repo
+                 } else if (url.startsWith('https://plugins.gradle.org/m2/')) {
+                     project.logger.lifecycle "Repository ${repo.url} replaced by $m2_URL."
+                     remove repo
+                 } else if (url.startsWith('http://repo.spring.io/libs-milestone/')) {
+                     project.logger.lifecycle "Repository ${repo.url} replaced by $spring_URL."
+                     remove repo
+                 } else if (url.startsWith('http://repo.spring.io/plugins-release/')) {
+                     project.logger.lifecycle "Repository ${repo.url} replaced by $spring_plugin_URL."
+                     remove repo
+                // 这里是安卓相关下载的加速，本地没有出现下载慢的情况，所以这个就屏蔽了
+                //}else if (url.startsWith('https://dl.google.com/dl/android/maven2/')) {
+ 				//	project.logger.lifecycle "Repository ${repo.url} replaced by $GOOGLE_URL."
+ 				//	println("buildscript ${repo.url} replaced by $GOOGLE_URL.")
+ 				//	remove repo
+ 				}
+             }
+         }
+         
+ 		maven { url 'https://maven.aliyun.com/repository/public' }
+         maven { url 'https://maven.aliyun.com/repository/spring' }
+         maven { url 'https://maven.aliyun.com/repository/spring-plugin' }
+ 		maven { url "https://maven.aliyun.com/repository/grails-core" }
+         maven { url "https://maven.aliyun.com/repository/apache-snapshots" }
+         maven { url "https://maven.aliyun.com/repository/gradle-plugin" }
+ 		maven { url 'https://maven.aliyun.com/repository/google' }
+         jcenter {
+ 			url jcenter_URL
+ 		}
+ 		maven {
+ 			url NEXUS_URL
+ 		}
+     }
+ }
